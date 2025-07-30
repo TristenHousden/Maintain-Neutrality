@@ -1,0 +1,70 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8bkjxn0s4c2i"]
+
+[ext_resource type="Script" uid="uid://cif5bkwacy2dr" path="res://Scripts/Menu/pause_menu.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://vrwcyl5dlcl2" path="res://Assets/Menus/PauseTorch.png" id="2_7i2m4"]
+[ext_resource type="Texture2D" uid="uid://cey05718l78cc" path="res://Assets/Menus/PauseLantern.png" id="3_qu87l"]
+
+[node name="PauseMenu" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+script = ExtResource("1")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 340.0
+offset_right = 1360.0
+offset_bottom = 740.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LeftImage" type="TextureRect" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_7i2m4")
+stretch_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 30
+
+[node name="ResumeButton" type="Button" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "CONTINUE"
+
+[node name="RestartButton" type="Button" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "STRUGGLE"
+
+[node name="MainMenuButton" type="Button" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "SURRENDER"
+
+[node name="RightImage" type="TextureRect" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("3_qu87l")
+stretch_mode = 2

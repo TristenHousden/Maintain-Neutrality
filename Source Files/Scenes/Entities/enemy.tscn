@@ -1,0 +1,145 @@
+[gd_scene load_steps=16 format=3 uid="uid://2fpxu8j4156d"]
+
+[ext_resource type="Script" uid="uid://ymnkvyxqryh" path="res://Scripts/Entities/enemy.gd" id="1_4gyqm"]
+[ext_resource type="AudioStream" uid="uid://cwiny7o5qweji" path="res://Assets/Sprites/Characters/JumpScare.wav" id="2_qi2p4"]
+[ext_resource type="Texture2D" uid="uid://beyvblgbye47s" path="res://Assets/Sprites/Enemy/LegFrames/Frame1.png" id="3_iaxvc"]
+[ext_resource type="Texture2D" uid="uid://c61jmv1bo4wp4" path="res://Assets/Sprites/Enemy/LegFrames/Frame2.png" id="4_k0ta7"]
+[ext_resource type="Texture2D" uid="uid://dhjiyy3mrlqbh" path="res://Assets/Sprites/Enemy/LegFrames/Frame3.png" id="5_cbtin"]
+[ext_resource type="Texture2D" uid="uid://dq8nf7w61uqti" path="res://Assets/Sprites/Enemy/LegFrames/Frame4.png" id="6_fu0go"]
+[ext_resource type="Texture2D" uid="uid://ddi4wayd5ba8t" path="res://Assets/Sprites/Enemy/LegFrames/Frame5.png" id="7_qxuwl"]
+[ext_resource type="Texture2D" uid="uid://dv5yo52wo64og" path="res://Assets/Sprites/Enemy/LegFrames/Frame6.png" id="8_gg7rt"]
+[ext_resource type="Texture2D" uid="uid://b4uwg62t13s8l" path="res://Assets/Sprites/Enemy/EnemyStaticBody(1).png" id="9_iaxvc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4gyqm"]
+radius = 26.0
+height = 108.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7k104"]
+radius = 29.0
+height = 120.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3am8q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_iaxvc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_k0ta7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_cbtin")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_fu0go")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_qxuwl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_gg7rt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_qxuwl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_fu0go")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_cbtin")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_k0ta7")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iaxvc"]
+cull_mode = 2
+polygon = PackedVector2Array(-12, -22, -12, 44, -9, 55, 0, 59, 8, 55, 11, 43, 11, -21, 10, -21, 8, -12, 5, -12, 5, -26, 3, -31, 7, -35, 6, -40, 2, -44, 4, -47, 3, -51, 2, -60, 1, -61, -2, -61, -3, -60, -4, -51, -5, -47, -3, -44, -7, -40, -8, -35, -3, -31, -6, -26, -6, -13, -9, -13, -10, -21)
+
+[sub_resource type="Gradient" id="Gradient_3eadt"]
+offsets = PackedFloat32Array(0, 0.550725, 1)
+colors = PackedColorArray(0.695717, 0.761477, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iaxvc"]
+gradient = SubResource("Gradient_3eadt")
+width = 5
+height = 5
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_4gyqm")
+speed_none = 20.0
+speed_torch = 50.0
+speed_lantern = 50.0
+speed_sprint = 300.0
+game_over_sound = ExtResource("2_qi2p4")
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_4gyqm")
+
+[node name="GameOverDetector" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameOverDetector"]
+shape = SubResource("CapsuleShape2D_7k104")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+simplify_epsilon = 5.0
+radius = 256.0
+
+[node name="LegsContainer" type="Node2D" parent="."]
+
+[node name="Leg_FrontRight" type="AnimatedSprite2D" parent="LegsContainer"]
+position = Vector2(14, -19)
+rotation = -0.339153
+sprite_frames = SubResource("SpriteFrames_3am8q")
+animation = &"walk"
+
+[node name="Leg_FrontLeft" type="AnimatedSprite2D" parent="LegsContainer"]
+position = Vector2(-15, -20)
+rotation = 0.453704
+sprite_frames = SubResource("SpriteFrames_3am8q")
+animation = &"walk"
+flip_h = true
+
+[node name="Leg_BackRight" type="AnimatedSprite2D" parent="LegsContainer"]
+position = Vector2(18, 34)
+rotation = -0.339153
+sprite_frames = SubResource("SpriteFrames_3am8q")
+animation = &"walk"
+
+[node name="Leg_BackLeft" type="AnimatedSprite2D" parent="LegsContainer"]
+position = Vector2(-16, 34)
+rotation = 0.404236
+sprite_frames = SubResource("SpriteFrames_3am8q")
+animation = &"walk"
+flip_h = true
+
+[node name="EnemySprite" type="Sprite2D" parent="."]
+texture = ExtResource("9_iaxvc")
+
+[node name="Shadow" type="LightOccluder2D" parent="EnemySprite"]
+occluder = SubResource("OccluderPolygon2D_iaxvc")
+
+[node name="RightEyeLight" type="PointLight2D" parent="EnemySprite"]
+light_mask = 4
+position = Vector2(5, -44)
+rotation = 0.785398
+color = Color(1, 0, 0, 1)
+texture = SubResource("GradientTexture2D_iaxvc")
+
+[node name="LeftEyeLight" type="PointLight2D" parent="EnemySprite"]
+light_mask = 4
+position = Vector2(-6, -44)
+rotation = 2.35619
+color = Color(1, 0, 0, 1)
+texture = SubResource("GradientTexture2D_iaxvc")

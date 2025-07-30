@@ -1,0 +1,112 @@
+[gd_scene load_steps=14 format=3 uid="uid://col2tok18ie3v"]
+
+[ext_resource type="Script" uid="uid://bg8jouufgnaxl" path="res://Scripts/Entities/player.gd" id="1_3eadt"]
+[ext_resource type="AudioStream" uid="uid://d0erfulnqkfqk" path="res://Assets/Sprites/Characters/EndgameActivated.wav" id="2_h1q25"]
+[ext_resource type="Texture2D" uid="uid://cab5el6mnfe2f" path="res://Assets/Sprites/Characters/PlayerCharacter.png" id="3_evndh"]
+[ext_resource type="AudioStream" uid="uid://dsgkysf2nqmsp" path="res://Assets/Sound/LanternBass.wav" id="4_a1rq5"]
+[ext_resource type="AudioStream" uid="uid://dy8o7nvd60tcv" path="res://Assets/Sound/PlaceHolders/PlaceHolderTorchClick.wav" id="5_evndh"]
+
+[sub_resource type="Gradient" id="Gradient_3eadt"]
+offsets = PackedFloat32Array(0, 0.123377, 1)
+colors = PackedColorArray(0.695717, 0.761477, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a1rq5"]
+gradient = SubResource("Gradient_3eadt")
+width = 400
+height = 400
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_x0jl3"]
+cull_mode = 1
+polygon = PackedVector2Array(0, -3, 2, -5, 8, -5, 10, -3, 10, 3, 8, 5, 2, 5, 0, 3)
+
+[sub_resource type="Curve" id="Curve_evndh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.501945), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_yqx0t"]
+offsets = PackedFloat32Array(0, 0.101449, 0.123188, 1)
+colors = PackedColorArray(0.695717, 0.761477, 1, 1, 1, 1, 1, 1, 0.483871, 0.483871, 0.483871, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ofjh0"]
+gradient = SubResource("Gradient_yqx0t")
+width = 1028
+height = 1028
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_evndh"]
+cull_mode = 1
+polygon = PackedVector2Array(19, 19, 23, 17, 43, -130, 23, 0, 21, 13, 16, 14, 11, 13, 9, 0, -11, -130, 9, 17, 13, 19)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tory2"]
+radius = 20.0
+
+[node name="Player" type="CharacterBody2D"]
+top_level = true
+script = ExtResource("1_3eadt")
+base_speed = 150.0
+sprint_speed = 300.0
+endgame_audio = ExtResource("2_h1q25")
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_evndh")
+
+[node name="LightSprite" type="Sprite2D" parent="PlayerSprite"]
+offset = Vector2(0, 24)
+
+[node name="PlayerLantern" type="PointLight2D" parent="PlayerSprite/LightSprite"]
+position = Vector2(19, -16)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_a1rq5")
+
+[node name="LanternCover" type="LightOccluder2D" parent="PlayerSprite/LightSprite/PlayerLantern"]
+visible = false
+position = Vector2(-5, 0)
+occluder = SubResource("OccluderPolygon2D_x0jl3")
+
+[node name="LanternSound" type="AudioStreamPlayer2D" parent="PlayerSprite/LightSprite/PlayerLantern"]
+stream = ExtResource("4_a1rq5")
+volume_db = -10.0
+pitch_scale = 0.7
+
+[node name="LanternFireParticles" type="CPUParticles2D" parent="PlayerSprite/LightSprite/PlayerLantern"]
+amount = 5
+fixed_fps = 30
+emission_shape = 1
+emission_sphere_radius = 5.0
+spread = 180.0
+gravity = Vector2(0, 0)
+angle_max = 180.0
+scale_amount_min = 5.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_evndh")
+color = Color(0, 1, 1, 1)
+
+[node name="PlayerTorch" type="PointLight2D" parent="PlayerSprite/LightSprite"]
+light_mask = 3
+position = Vector2(-19, -26)
+energy = 0.5
+shadow_enabled = true
+shadow_filter_smooth = 20.0
+shadow_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_ofjh0")
+
+[node name="TorchCover" type="LightOccluder2D" parent="PlayerSprite/LightSprite/PlayerTorch"]
+light_mask = 2
+position = Vector2(-16, -9)
+occluder = SubResource("OccluderPolygon2D_evndh")
+occluder_light_mask = 2
+
+[node name="TorchSound" type="AudioStreamPlayer2D" parent="PlayerSprite/LightSprite/PlayerTorch"]
+stream = ExtResource("5_evndh")
+volume_db = -10.0
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+ignore_rotation = false
+
+[node name="PlayerCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tory2")

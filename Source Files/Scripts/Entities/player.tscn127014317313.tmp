@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://col2tok18ie3v"]
+
+[ext_resource type="Script" uid="uid://bg8jouufgnaxl" path="res://characters/player.gd" id="1_3eadt"]
+[ext_resource type="Texture2D" uid="uid://wb0yhda4kl4y" path="res://PlaceHolders/PlacehHolderPlayerCharacter.png" id="2_tory2"]
+[ext_resource type="Texture2D" uid="uid://dfui7hfi2uek1" path="res://Lights/RadialLight.tres" id="4_x0jl3"]
+[ext_resource type="AudioStream" uid="uid://dy8o7nvd60tcv" path="res://Sound/PlaceHolders/PlaceHolderTorchClick.wav" id="5_evndh"]
+
+[sub_resource type="Gradient" id="Gradient_3eadt"]
+offsets = PackedFloat32Array(0, 0.123377, 1)
+colors = PackedColorArray(0.695717, 0.761477, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_x0jl3"]
+gradient = SubResource("Gradient_3eadt")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_x0jl3"]
+cull_mode = 1
+polygon = PackedVector2Array(0, -3, 2, -5, 8, -5, 10, -3, 10, 3, 8, 5, 2, 5, 0, 3)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_evndh"]
+cull_mode = 2
+polygon = PackedVector2Array(19, 19, 23, 17, 51, -168, 23, 0, 21, 13, 16, 14, 11, 13, 9, 0, -16, -169, 9, 17, 13, 19)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tory2"]
+radius = 18.0
+
+[node name="Player" type="CharacterBody2D"]
+top_level = true
+script = ExtResource("1_3eadt")
+base_speed = null
+sprint_speed = null
+acceleration_factor = null
+rotation_smoothing_speed = null
+camera_revolve_speed = null
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_tory2")
+
+[node name="LightSprite" type="Sprite2D" parent="PlayerSprite"]
+offset = Vector2(0, 24)
+
+[node name="PlayerLantern" type="PointLight2D" parent="PlayerSprite/LightSprite"]
+position = Vector2(19, -16)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_x0jl3")
+
+[node name="LanternCover" type="LightOccluder2D" parent="PlayerSprite/LightSprite/PlayerLantern"]
+position = Vector2(-5, 0)
+occluder = SubResource("OccluderPolygon2D_x0jl3")
+
+[node name="LanternSound" type="AudioStreamPlayer2D" parent="PlayerSprite/LightSprite/PlayerLantern"]
+stream = ExtResource("5_evndh")
+playback_type = 1
+
+[node name="PlayerTorch" type="PointLight2D" parent="PlayerSprite/LightSprite"]
+light_mask = 3
+position = Vector2(-19, -21)
+energy = 0.5
+shadow_enabled = true
+shadow_filter_smooth = 20.0
+shadow_item_cull_mask = 3
+texture = ExtResource("4_x0jl3")
+
+[node name="TorchCover" type="LightOccluder2D" parent="PlayerSprite/LightSprite/PlayerTorch"]
+light_mask = 2
+position = Vector2(-16, -9)
+occluder = SubResource("OccluderPolygon2D_evndh")
+occluder_light_mask = 2
+
+[node name="TorchSound" type="AudioStreamPlayer2D" parent="PlayerSprite/LightSprite/PlayerTorch"]
+stream = ExtResource("5_evndh")
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+ignore_rotation = false
+
+[node name="PlayerCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tory2")
