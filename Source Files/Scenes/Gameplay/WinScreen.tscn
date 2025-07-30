@@ -1,0 +1,88 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0w5b532efp3h"]
+
+[ext_resource type="Script" uid="uid://kosc5jj8kb54" path="res://Scripts/Gameplay/win_screen.gd" id="1_y0muh"]
+[ext_resource type="Texture2D" uid="uid://dqeoeacq6v5jo" path="res://Assets/Menus/WinMenu.jpg" id="2_y0muh"]
+[ext_resource type="AudioStream" uid="uid://oru1ofknthpe" path="res://Assets/Sound/triggerWin.wav" id="3_y0muh"]
+
+[node name="WinScreen" type="Control"]
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y0muh")
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="Background" type="ColorRect" parent="Canvas"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TextureRect" type="TextureRect" parent="Canvas"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -508.0
+offset_top = -52.0
+offset_right = 1376.0
+offset_bottom = 619.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_y0muh")
+
+[node name="WinAudio" type="AudioStreamPlayer" parent="Canvas"]
+stream = ExtResource("3_y0muh")
+pitch_scale = 0.6
+
+[node name="Control" type="Control" parent="Canvas"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WinMessage" type="Label" parent="Canvas/Control"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 60.0
+offset_right = 1860.0
+offset_bottom = 760.0
+theme_override_font_sizes/font_size = 180
+text = "You Have Run Again
+Congratulations"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="Canvas/Control"]
+layout_mode = 0
+offset_left = 610.0
+offset_top = 810.0
+offset_right = 1310.0
+offset_bottom = 960.0
+theme_override_font_sizes/font_size = 100
+text = "Time: 00:00.00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuButton" type="Button" parent="Canvas/Control"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 850.0
+offset_right = 450.0
+offset_bottom = 930.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "SURRENDER"
+
+[node name="RespawnButton" type="Button" parent="Canvas/Control"]
+layout_mode = 0
+offset_left = 1470.0
+offset_top = 850.0
+offset_right = 1720.0
+offset_bottom = 930.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "LET ME GO!"

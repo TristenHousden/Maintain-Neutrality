@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://834cgip6whyi"]
+
+[ext_resource type="Script" uid="uid://3jhenec2lnqk" path="res://Scripts/Menu/game_over_scene.gd" id="1_bm5fa"]
+[ext_resource type="AudioStream" uid="uid://chcmt7pac5sdh" path="res://Assets/Sprites/Characters/8-bit-scream_F_minor.wav" id="2_c4ct6"]
+[ext_resource type="Texture2D" uid="uid://d4aied64gp7ml" path="res://Assets/Menus/GameOverImage2.png" id="2_vkd6n"]
+
+[node name="GameOverScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bm5fa")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_vkd6n")
+
+[node name="MenuButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 660.0
+offset_top = 930.0
+offset_right = 910.0
+offset_bottom = 1010.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "SURRENDER"
+
+[node name="RespawnButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1010.0
+offset_top = 930.0
+offset_right = 1260.0
+offset_bottom = 1010.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "STRUGGLE"
+
+[node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_c4ct6")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 610.0
+offset_top = 630.0
+offset_right = 1310.0
+offset_bottom = 930.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 180
+text = "DEATH"
+horizontal_alignment = 1
+vertical_alignment = 1
